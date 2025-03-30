@@ -13,19 +13,24 @@ import ListingPages from "./pages/shopping-view/ListingPages"
 import Account from "./pages/shopping-view/Account"
 import CheckOut from "./pages/shopping-view/CheckOut"
 import Home from "./pages/shopping-view/Home"
+import CheckAuth from "./components/common comp/CheckAuth"
 
 const App = () => {
+
+  const isAutherised = true // Replace with actual authentication logic
+  const user = {role : "admin"}// Replace with actual user data
+
   return (
     <div className="flex flex-col overflow-hidden bg-white">
 
       <Routes >
-        <Route path="/auth" element={<Layout />}>
+        <Route path="/auth" element={<CheckAuth isAutherised={isAutherised} user={user}><Layout /></CheckAuth>}>
 
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
 
         </Route>
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<CheckAuth isAutherised={isAutherised} user={user}><AdminLayout /></CheckAuth>}>
 
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
@@ -34,7 +39,7 @@ const App = () => {
 
         </Route>
 
-        <Route path="/shop" element={<ShoppingLayout />} >
+        <Route path="/shop" element={<CheckAuth isAutherised={isAutherised} user={user}><ShoppingLayout /></CheckAuth>} >
         <Route path="home" element={<Home/>}/>
         <Route path="listing" element={<ListingPages/>}/>
         <Route path="account" element={<Account/>}/>
