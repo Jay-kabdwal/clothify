@@ -1,9 +1,37 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import Form from '../../components/common comp/Form'
+import { LoginFormControls } from "@/config"
 
-const login = () => {
+
+const initalState = {
+  name: "",
+  email: "",
+  password: "",
+}
+
+const Login = () => {
+
+  const [formData, setFormData] = useState(initalState)
+  const onSubmit = () => { }
+
   return (
-    <div>login</div>
+    <div className='mx-auto w-full max-w-md space-y-6'>
+      <div className='text-center'>
+              <h1 className='text-3xl font-bold tracking-tight text-foreground'>sign In To Your Account</h1>
+              <p>Don't have an account
+                <Link to="/auth/signup" className='font-medium text-primary hover:underline ml-2 '>Sign Up</Link>
+              </p>
+            </div>
+      <Form
+        formControls={LoginFormControls}
+        buttonText={"Sign In"}
+        formData={formData}
+        setFormData={setFormData}
+        onSubmit={onSubmit} />
+    </div>
   )
 }
 
-export default login
+export default Login

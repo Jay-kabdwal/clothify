@@ -1,9 +1,7 @@
-
-
 export const registerFormControls = [
     {
     name :"username",
-    label :"user name",
+    label :"User name",
     placeholder :"Enter your user name",
     componentType :"input",
     type :"text",
@@ -17,10 +15,27 @@ export const registerFormControls = [
     }, 
     {
         name: "password",
-        label: "password",
+        label: "Password",
         placeholder: "Enter password",
-        componentType: "password",
+        componentType: "input",
         type: "passwprd",
     }
 
+]
+
+export const LoginFormControls =[
+    {
+        name : "email",
+        label : "Email",
+        placeholder : "Enter your email",
+        componentType : "input",
+        type : "email",
+    },
+    {
+        name : "password",
+        label : "Password",
+        placeholder : "Enter your password",
+        componentType : "input",
+        type : "password",
+    }
 ]
