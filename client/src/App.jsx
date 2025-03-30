@@ -14,11 +14,12 @@ import Account from "./pages/shopping-view/Account"
 import CheckOut from "./pages/shopping-view/CheckOut"
 import Home from "./pages/shopping-view/Home"
 import CheckAuth from "./components/common comp/CheckAuth"
+import UnAuth from "./pages/unauth/UnAuth"
 
 const App = () => {
 
   const isAutherised = true // Replace with actual authentication logic
-  const user = {role : "admin"}// Replace with actual user data
+  const user = {role : "user"}// Replace with actual user data
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
@@ -48,6 +49,8 @@ const App = () => {
         </Route>
 
         <Route path="*" element={<NotFound />} />
+        
+        <Route path="/unauthpage" element={<CheckAuth isAutherised={isAutherised} user={user}><UnAuth /></CheckAuth>} />
 
 
 
