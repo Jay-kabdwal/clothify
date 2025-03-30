@@ -18,7 +18,7 @@ import UnAuth from "./pages/unauth/UnAuth"
 
 const App = () => {
 
-  const isAutherised = true // Replace with actual authentication logic
+  const isAutherised = false // Replace with actual authentication logic
   const user = {role : "user"}// Replace with actual user data
 
   return (
