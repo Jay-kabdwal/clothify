@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
 
-// 1:51:53
 //register
 
 const registerUser = async (req, res) => {
+
     const { username, email, password } = req.body;
 
     try {
@@ -18,8 +18,13 @@ const registerUser = async (req, res) => {
             email,
             password: hashPassword,
         });
+
         await newuser.save();
-        res.status(200).json({success: true, message: "user created successfully"});
+
+        res.status(200).json({
+            success: true,
+            message: "user created successfully"
+        });
 
 
     } catch (e) {
