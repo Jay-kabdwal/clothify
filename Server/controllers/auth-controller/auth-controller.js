@@ -11,6 +11,14 @@ const registerUser = async (req, res) => {
 
     try {
 
+        const checkUser = await User.findOne({ email });
+        if (checkUser) {
+            res.send({
+                success: false,
+                message: "user already exists"
+            });
+        }
+
         const hashPassword = await bcrypt.hash(password, 12);
 
         const newuser = new User({
@@ -41,8 +49,19 @@ const registerUser = async (req, res) => {
 //login
 
 const Login = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     try {
+
+        const checkUser = await User.findOne({ email });
+        if(!checkUser){
+            res.send({
+                success:false,
+                message:"use"
+            })
+        }
+        const checkPassword = await bcrypt.compare(password, checkUser.password);
+        
+
 
     } catch (e) {
         console.log(e);
@@ -60,3 +79,4 @@ const Login = async (req, res) => {
 
 
 module.exports ={registerUser};
+
