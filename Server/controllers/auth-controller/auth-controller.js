@@ -45,22 +45,46 @@ const registerUser = async (req, res) => {
     }
 }
 
-
 //login
 
-const Login = async (req, res) => {
+const LoginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
 
         const checkUser = await User.findOne({ email });
-        if(!checkUser){
+        if (!checkUser) {
             res.send({
-                success:false,
-                message:"use"
+                success: false,
+                message: "user not found"
             })
         }
         const checkPassword = await bcrypt.compare(password, checkUser.password);
-        
+        if (!checkPassword) {
+            res.send({
+                success: false,
+                message: "incorrect password"
+            })
+        }
+        const token = jwt.sign({
+            id: checkUser._id,
+            email: checkUser.email,
+            username: checkUser.username,
+        }, "secretekey", {
+            expiresIn: "1h"
+        });
+
+        res.cookie("token",token,{
+            httponly:true,
+            secure:false,
+        }).json({
+            success:true,
+            message:"login successfully",
+            user:{
+                id:checkUser._id,
+                username:checkUser.username,
+                email:checkUser.email,
+            }
+        })
 
 
     } catch (e) {
@@ -73,10 +97,9 @@ const Login = async (req, res) => {
     }
 }
 
-
 //logout
 
 
 
-module.exports ={registerUser};
+module.exports = { registerUser , LoginUser };
 

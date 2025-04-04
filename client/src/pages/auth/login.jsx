@@ -13,8 +13,18 @@ const initalState = {
 
 const Login = () => {
 
-  const [formData, setFormData] = useState(initalState)
-  const onSubmit = () => { }
+  const [formData, setFormData] = useState(initalState);
+  const dispatch = useDispatch();
+
+
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(LoginaUser(formData)).then((data)=>{
+      
+    })
+
+   }
 
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
