@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import Form from '../../components/common comp/Form'
 import { LoginFormControls } from "@/config"
-
+import { useDispatch } from 'react-redux'
+import { LoginUser } from '@/store/auth-slice'
+import { toast } from 'sonner' 
 
 const initalState = {
   name: "",
@@ -20,8 +22,20 @@ const Login = () => {
   
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(LoginaUser(formData)).then((data)=>{
-      
+    
+    dispatch(LoginUser(formData)).then((data)=>{
+      if(data?.payload?.success){
+        toast.success("login successfully!", {
+          style: { background: "black", color: "green" },
+          duration: 3000,
+        });
+      }
+      else{
+        toast.error( data?.payload?.message , {
+          style: { background: "black", color: "red" },
+          duration: 3000,
+        });
+      }
     })
 
    }

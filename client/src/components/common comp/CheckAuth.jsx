@@ -1,34 +1,37 @@
 import { Navigate, useLocation } from "react-router-dom"
 
+const CheckAuth = ({ isAuthenticated, user, children }) => { // Fixed prop name
+    const location = useLocation();
 
-const CheckAuth = ({ isAutherised, user, children }) => {
-
-    const location = useLocation()
-
-    if (!isAutherised && !(location.pathname.includes("login") || location.pathname.includes("signup"))) {
-        return <Navigate to="/auth/login" />
+    // Not authenticated, redirect to login
+    
+    if (!isAuthenticated &&
+        !location.pathname.includes("/login") &&
+        !location.pathname.includes("/signup")) {
+        return <Navigate to="/auth/login" replace />;
     }
 
-    if (isAutherised && (location.pathname.includes("login") || location.pathname.includes("signup"))) {
-        if (user?.role === "admin") {
-            return <Navigate to="/admin/dashboard" />
-        }
-        else {
-            return <Navigate to="/shop/home" />
-        }
-
+    // Authenticated but on auth pages, redirect based on role
+    if (isAuthenticated &&
+        (location.pathname.includes("/login") || location.pathname.includes("/signup"))) {
+        return <Navigate to={user?.role === "admin" ? "/admin/dashboard" : "/shop/home"} replace />;
     }
 
-    if (isAutherised && user?.role !== "admin" && location.pathname.includes("admin")) {
-        return <Navigate to="/unauthpage" />
+    // Non-admin trying to access admin routes
+    if (isAuthenticated &&
+        user?.role !== "admin" &&
+        location.pathname.includes("/admin")) {
+        return <Navigate to="/unauthpage" replace />;
     }
 
-    if (isAutherised && user?.role === "admin" && location.pathname.includes("shop")) {
-        return <Navigate to="/admin/dashboard" />
+    // Admin trying to access shop routes
+    if (isAuthenticated &&
+        user?.role === "admin" &&
+        location.pathname.includes("/shop")) {
+        return <Navigate to="/admin/dashboard" replace />;
     }
 
-    return <>{children}</>
-
+    return children;
 }
 
-export default CheckAuth
+export default CheckAuth;

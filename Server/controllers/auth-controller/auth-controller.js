@@ -44,31 +44,34 @@ const registerUser = async (req, res) => {
 
     }
 }
-
+ 
 //login
 
 const LoginUser = async (req, res) => {
+
     const { email, password } = req.body;
     try {
 
         const checkUser = await User.findOne({ email });
         if (!checkUser) {
-            res.send({
+            return res.send({
                 success: false,
                 message: "user not found"
-            })
+            });
         }
         const checkPassword = await bcrypt.compare(password, checkUser.password);
         if (!checkPassword) {
-            res.send({
+            return res.send({
                 success: false,
                 message: "incorrect password"
             })
         }
+
         const token = jwt.sign({
             id: checkUser._id,
             email: checkUser.email,
             username: checkUser.username,
+            role : checkUser.role,
         }, "secretekey", {
             expiresIn: "1h"
         });
@@ -83,6 +86,7 @@ const LoginUser = async (req, res) => {
                 id:checkUser._id,
                 username:checkUser.username,
                 email:checkUser.email,
+                role:checkUser.role,
             }
         })
 

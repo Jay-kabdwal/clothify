@@ -15,23 +15,31 @@ import CheckOut from "./pages/shopping-view/CheckOut"
 import Home from "./pages/shopping-view/Home"
 import CheckAuth from "./components/common comp/CheckAuth"
 import UnAuth from "./pages/unauth/UnAuth"
+import { useSelector } from "react-redux"
+
 
 const App = () => {
-
-  const isAutherised = false // Replace with actual authentication logic
-  const user = {role : "user"}// Replace with actual user data
+  const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth); // Fixed naming
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
 
       <Routes >
-        <Route path="/auth" element={<CheckAuth isAutherised={isAutherised} user={user}><Layout /></CheckAuth>}>
+        <Route path="/auth"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <Layout />
+            </CheckAuth>}>
 
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
 
         </Route>
-        <Route path="/admin" element={<CheckAuth isAutherised={isAutherised} user={user}><AdminLayout /></CheckAuth>}>
+        <Route path="/admin"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AdminLayout />
+            </CheckAuth>}>
 
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
@@ -40,20 +48,21 @@ const App = () => {
 
         </Route>
 
-        <Route path="/shop" element={<CheckAuth isAutherised={isAutherised} user={user}><ShoppingLayout /></CheckAuth>} >
-        <Route path="home" element={<Home/>}/>
-        <Route path="listing" element={<ListingPages/>}/>
-        <Route path="account" element={<Account/>}/>
-        <Route path="checkout" element={<CheckOut/>}/>
+        <Route path="/shop"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <ShoppingLayout />
+            </CheckAuth>} >
+          <Route path="home" element={<Home />} />
+          <Route path="listing" element={<ListingPages />} />
+          <Route path="account" element={<Account />} />
+          <Route path="checkout" element={<CheckOut />} />
 
         </Route>
 
         <Route path="*" element={<NotFound />} />
-        
-        <Route path="/unauthpage" element={<CheckAuth isAutherised={isAutherised} user={user}><UnAuth /></CheckAuth>} />
 
-
-
+        <Route path="/unauthpage" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}><UnAuth /></CheckAuth>} />
 
       </Routes>
 
