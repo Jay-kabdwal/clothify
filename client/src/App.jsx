@@ -16,10 +16,24 @@ import Home from "./pages/shopping-view/Home"
 import CheckAuth from "./components/common comp/CheckAuth"
 import UnAuth from "./pages/unauth/UnAuth"
 import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { checkAuth } from "./store/auth-slice"
 
 
 const App = () => {
+
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(checkAuth());
+  },[dispatch])
+
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth); // Fixed naming
+
+  if(isLoading){
+    return <div>loading...</div>
+  }
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

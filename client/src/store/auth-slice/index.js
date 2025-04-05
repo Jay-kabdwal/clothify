@@ -4,7 +4,7 @@ import axios from "axios";
 
 const initialState = {
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
     user: null
 };
 
@@ -14,7 +14,9 @@ export const registerUser = createAsyncThunk("/auth/register", async (formData) 
     }
     );
     return res.data;
-})
+});
+
+
 
 export const LoginUser = createAsyncThunk(
     "/auth/Login",
@@ -25,7 +27,23 @@ export const LoginUser = createAsyncThunk(
         }
         );
         return res.data;
-    })
+    }
+);
+
+export const checkAuth = createAsyncThunk(
+    "/auth/checkauth",
+
+    async () => {
+        const res = await axios.get("http://localhost:5000/api/auth/check-auth", {
+            withCredentials: true,
+            headers: {
+                "cache-Control": "no-store,no-cache,must-revalidate,proxy-revalidate",
+            }
+        }
+        );
+        return res.data;
+    }
+);
 
 const authSlice = createSlice({
     name: "auth",
@@ -55,13 +73,26 @@ const authSlice = createSlice({
             .addCase(LoginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+                state.isAuthenticated = action.payload.success;
             })
             .addCase(LoginUser.rejected, (state) => {
                 state.isLoading = false;
                 state.isAuthenticated = false;
                 state.user = null;
             })
+            .addCase(checkAuth.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = action.payload.success ? action.payload.user : null;
+                state.isAuthenticated = action.payload.success;
+            })
+            .addCase(checkAuth.rejected, (state) => {
+                state.isLoading = false;
+                state.isAuthenticated = false;
+                state.user = null;
+            });
     }
 });
 

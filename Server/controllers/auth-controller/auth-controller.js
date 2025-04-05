@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
 
     }
 }
- 
+
 //login
 
 const LoginUser = async (req, res) => {
@@ -71,22 +71,22 @@ const LoginUser = async (req, res) => {
             id: checkUser._id,
             email: checkUser.email,
             username: checkUser.username,
-            role : checkUser.role,
-        }, "secretekey", {
+            role: checkUser.role,
+        }, "CLIENT_SECRET_KEY", {
             expiresIn: "1h"
         });
 
-        res.cookie("token",token,{
-            httponly:true,
-            secure:false,
+        res.cookie("token", token, {
+            httponly: true,
+            secure: false,
         }).json({
-            success:true,
-            message:"login successfully",
-            user:{
-                id:checkUser._id,
-                username:checkUser.username,
-                email:checkUser.email,
-                role:checkUser.role,
+            success: true,
+            message: "login successfully",
+            user: {
+                id: checkUser._id,
+                username: checkUser.username,
+                email: checkUser.email,
+                role: checkUser.role,
             }
         })
 
@@ -103,7 +103,38 @@ const LoginUser = async (req, res) => {
 
 //logout
 
+const logoutUser = async (req, res) => {
+    res.clearCookie("token").json({
+        message: "logout successfully",
+        success: true,
+    });
+};
 
+//auth middleware
 
-module.exports = { registerUser , LoginUser };
+const authMiddleware = async (req, res, next) => {
+
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({
+            message: "unauthorized",
+            success: false,
+        })
+    }
+
+    try {
+        const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+        req.user = decoded;
+        next();
+    } catch (e) {
+        return res.status(401).json({
+            message: "unauthorized",
+            success: false,
+        })
+    }
+
+}
+
+module.exports = { registerUser, LoginUser, logoutUser, authMiddleware };
 
