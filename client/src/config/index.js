@@ -1,3 +1,5 @@
+import path from "path"
+
 export const registerFormControls = [
     {
     name :"username",
@@ -39,3 +41,4 @@ export const LoginFormControls =[
         type : "password",
     }
 ]
+
