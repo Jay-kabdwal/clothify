@@ -73,7 +73,7 @@ const LoginUser = async (req, res) => {
             username: checkUser.username,
             role: checkUser.role,
         }, "CLIENT_SECRET_KEY", {
-            expiresIn: "1h"
+            expiresIn: "7d"
         });
 
         res.cookie("token", token, {
