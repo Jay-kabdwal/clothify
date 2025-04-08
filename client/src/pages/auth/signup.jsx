@@ -1,21 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Form from '@/components/common comp/Form';
+import CommonForm from '@/components/common comp/Form';
 import { registerFormControls } from "@/config";
 import { registerUser } from '@/store/auth-slice';
 import { toast } from 'sonner'; // Correct import for toast
 
-const initalState = {
+const initialState = {
   username: "",
   email: "",
   password: "",
 };
 
-const signup = () => {
-  const [formData, setFormData] = useState(initalState);
+const Signup = () => {
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +33,6 @@ const signup = () => {
           style: { background: "black", color: "red" },
           duration: 3000,
         });
-
       } else {
         toast.error("Registration failed", {
           description: <span style={{ color: "red" }}>{data?.payload?.message || "Please try again."}</span>,
@@ -46,8 +43,6 @@ const signup = () => {
     });
   };
 
-  console.log(formData);
-
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>
@@ -57,7 +52,7 @@ const signup = () => {
           <Link to="/auth/login" className='font-medium text-primary hover:underline ml-2'>Login</Link>
         </p>
       </div>
-      <Form
+      <CommonForm
         formControls={registerFormControls}
         buttonText={"Sign Up"}
         formData={formData}
@@ -68,4 +63,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default Signup;

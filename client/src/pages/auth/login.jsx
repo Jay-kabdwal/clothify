@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import Form from '../../components/common comp/Form'
+import CommonForm from '../../components/common comp/Form'
 import { LoginFormControls } from "@/config"
 import { useDispatch } from 'react-redux'
 import { LoginUser } from '@/store/auth-slice'
@@ -48,7 +48,7 @@ const Login = () => {
                 <Link to="/auth/signup" className='font-medium text-primary hover:underline ml-2 '>Sign Up</Link>
               </p>
             </div>
-      <Form
+      <CommonForm
         formControls={LoginFormControls}
         buttonText={"Sign In"}
         formData={formData}

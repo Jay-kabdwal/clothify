@@ -2,10 +2,10 @@ import React from 'react'
 import { Input } from '../ui/input';
 import { Select } from '../ui/select';
 import { Textarea } from '../ui/textarea';
-import { SelectContent, SelectTrigger, SelectItem, SelectValue } from '@radix-ui/react-select';
+import { SelectContent, SelectTrigger, SelectItem, SelectValue } from '../ui/select';
 import { Button } from '../ui/button';
 
-const Form = ({ formControls, formData, setFormData, onSubmit, buttonText }) => {
+const CommonForm = ({ formControls, formData, setFormData, onSubmit, buttonText }) => {
 
 
     function renderInputsByComponentType(getControlItem) {
@@ -30,7 +30,7 @@ const Form = ({ formControls, formData, setFormData, onSubmit, buttonText }) => 
                 );
                 break;
 
-            case "slect":
+            case "select":
                 element = (
                     <Select value={value} onValueChange={(value) => setFormData({
                         ...formData,
@@ -61,7 +61,7 @@ const Form = ({ formControls, formData, setFormData, onSubmit, buttonText }) => 
                         placeholder={getControlItem.placeholder}
                         id={getControlItem.id}
                         value={value}
-                        onChange={event => SetFormData({
+                        onChange={event => setFormData({
                             ...formData,
                             [getControlItem.name]: event.target.value
                         })}
@@ -77,7 +77,7 @@ const Form = ({ formControls, formData, setFormData, onSubmit, buttonText }) => 
                         id={getControlItem.name}
                         type={getControlItem.type}
                         value={value}
-                        onChange={event => SetFormData({
+                        onChange={event => setFormData({
                             ...formData,
                             [getControlItem.name]: event.target.value
                         })}
@@ -109,4 +109,4 @@ const Form = ({ formControls, formData, setFormData, onSubmit, buttonText }) => 
     )
 }
 
-export default Form
+export default CommonForm
