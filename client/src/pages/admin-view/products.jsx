@@ -39,7 +39,7 @@ const Products = () => {
               <CommonForm
                 formData={formData}
                 setFormData={setFormData}
-                formControls={addProductFormElement} // Ensure this is defined or imported
+                formControls={addProductFormElement} 
                 buttonText="Add Product"
                 onSubmit={onSubmit}
               />
