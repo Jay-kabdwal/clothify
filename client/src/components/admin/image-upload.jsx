@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Input } from "../../components/ui/input"
 import { UploadCloudIcon, XIcon } from 'lucide-react';
-import { FileIcon } from 'lucide-react';
+import axios from 'axios';
 
 const ProductImageUpload = ({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl }) => {
 
@@ -26,7 +26,28 @@ const ProductImageUpload = ({ imageFile, setImageFile, uploadedImageUrl, setUplo
         }
 
     }
+    function handleRemoveImage() {
+        setImageFile(null);
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
 
+    }
+
+    async function uploadImageToCloudinary(imageFile) {
+        const data = new FormData();
+        data.append("my_file", imageFile);
+        const response = await axios.post("http://localhost:5000/api/admin/products/upload", data, )
+        console.log(response.data);
+        
+        if(response) setUploadedImageUrl(response.data)
+
+    }
+
+    useEffect(() => {
+        if (imageFile !== null) uploadImageToCloudinary(imageFile)
+
+    }, [imageFile])
 
     return (
         <>
@@ -64,18 +85,18 @@ const ProductImageUpload = ({ imageFile, setImageFile, uploadedImageUrl, setUplo
                                 </div>
                                 <button
                                     className='text-red-500 hover:text-red-700'
-                                    onClick={() => setImageFile(null)}
+                                    onClick={() => handleRemoveImage()}
                                 >
                                     <XIcon className='w-6 h-6' />
                                 </button>
                             </div>
-                        
+
                     }
                 </div>
             </div>
         </>
 
-)
+    )
 }
 
 export default ProductImageUpload
