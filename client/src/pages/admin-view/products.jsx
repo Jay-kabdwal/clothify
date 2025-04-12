@@ -26,6 +26,8 @@ const Products = () => {
 
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
+  const [imageLoadingState, setImageLoadingState] = useState(false);
+
   function onSubmit() {
     console.log(formData);
   }
@@ -53,6 +55,8 @@ const Products = () => {
                 setImageFile={setImageFile}
                 uploadedImageUrl={uploadedImageUrl}
                 setUploadedImageUrl={setUploadedImageUrl}
+                setImageLoadingState={setImageLoadingState}
+
               />
               <div className='mt-1 text-lg font-semibold mb-2 block text-center'>
                 <CommonForm
