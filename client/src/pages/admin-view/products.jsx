@@ -29,8 +29,10 @@ const Products = () => {
   const [imageLoadingState, setImageLoadingState] = useState(false);
 
   function onSubmit() {
-    console.log(formData);
+    
   }
+
+  console.log(formData);
 
   return (
     <>
