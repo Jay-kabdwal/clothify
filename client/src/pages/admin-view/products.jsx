@@ -1,9 +1,14 @@
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetHeader, SheetTitle, SheetContent } from '@/components/ui/sheet';
-import React, { useState } from 'react';
-import CommonForm from "../../components/common comp/Form"
-import { addProductFormElement } from "../../config"
-import ProductImageUpload from '../../components/admin/image-upload';
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetHeader,
+  SheetTitle,
+  SheetContent,
+} from "@/components/ui/sheet";
+import React, { useState } from "react";
+import CommonForm from "../../components/common comp/Form";
+import { addProductFormElement } from "../../config";
+import ProductImageUpload from "../../components/admin/image-upload";
 
 // Initial form data
 const initialFormData = {
@@ -28,28 +33,27 @@ const Products = () => {
 
   const [imageLoadingState, setImageLoadingState] = useState(false);
 
-  function onSubmit() {
-    
-  }
+  function onSubmit() {}
 
   console.log(formData);
 
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
-        <Button
-          onClick={() => setOpenCreateProductDialog(true)}>
+        <Button onClick={() => setOpenCreateProductDialog(true)}>
           Add Products
         </Button>
       </div>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-
         <Sheet
           open={openCreateProductDialog}
-          onOpenChange={setOpenCreateProductDialog}>
-          <SheetContent side="right">
+          onOpenChange={setOpenCreateProductDialog}
+        >
+          <SheetContent side="right" className="overflow-y-auto max-h-screen">
             <SheetHeader>
-              <SheetTitle className="text-xl text-center font-extrabold mt-3 tracking-tight shadow">Add New Product</SheetTitle>
+              <SheetTitle className="text-xl text-center font-extrabold mt-3 tracking-tight shadow">
+                Add New Product
+              </SheetTitle>
             </SheetHeader>
             <div className="p-4">
               <ProductImageUpload
@@ -58,9 +62,9 @@ const Products = () => {
                 uploadedImageUrl={uploadedImageUrl}
                 setUploadedImageUrl={setUploadedImageUrl}
                 setImageLoadingState={setImageLoadingState}
-
+                imageLoadingState={imageLoadingState}
               />
-              <div className='mt-1 text-lg font-semibold mb-2 block text-center'>
+              <div className="mt-1 text-lg font-semibold mb-2 block text-center">
                 <CommonForm
                   formData={formData}
                   setFormData={setFormData}
