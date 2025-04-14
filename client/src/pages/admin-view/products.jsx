@@ -5,10 +5,13 @@ import {
   SheetTitle,
   SheetContent,
 } from "@/components/ui/sheet";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommonForm from "../../components/common comp/Form";
 import { addProductFormElement } from "../../config";
 import ProductImageUpload from "../../components/admin/image-upload";
+import { addNewProduct, fetchAllProducts } from "@/store/admin/Products-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 // Initial form data
 const initialFormData = {
@@ -23,19 +26,48 @@ const initialFormData = {
 };
 
 const Products = () => {
+
   const [openCreateProductDialog, setOpenCreateProductDialog] = useState(false);
-
   const [formData, setFormData] = useState(initialFormData);
-
   const [imageFile, setImageFile] = useState(null);
-
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const { productList } = useSelector((state) => state.adminProducts);
+  const dispatch = useDispatch();
 
-  function onSubmit() {}
+  function onSubmit(e) {
+    e.preventDefault();
 
-  console.log(formData);
+    if (!uploadedImageUrl) {
+      toast.error("Please upload an image first!");
+      return;
+    }
+
+    dispatch(addNewProduct({
+      ...formData,
+      image: uploadedImageUrl,
+    }))
+      .then((data) => {
+        if (data?.payload?.success) {
+          dispatch(fetchAllProducts());
+          setOpenCreateProductDialog(false);
+          setImageFile(null);
+          setFormData(initialFormData);
+          toast.success("Product added successfully!");
+        } else {
+          toast.error("Failed to add product!");
+        }
+      })
+      .catch((error) => {
+        toast.error("Error adding product: " + error.message);
+      });
+  }
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  console.log("Product List", productList);
 
   return (
     <>

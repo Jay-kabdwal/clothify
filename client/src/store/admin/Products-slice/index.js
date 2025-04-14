@@ -23,6 +23,7 @@ export const addNewProduct = createAsyncThunk(
         },
       }
     );
+    return result.data; // Return the response data
   }
 );
 
@@ -60,18 +61,17 @@ const AdminProductsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(fetchAllProducts.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.productList = action.payload;
+        state.productList = action.payload?.data || []; // Add null check
       })
-      .addCase(fetchAllProducts.rejected, (state, action) => {
+      .addCase(fetchAllProducts.rejected, (state) => {
         state.isLoading = false;
-        state.productList=[];
-      });
+        state.productList = [];
+      })
   },
 });
 
