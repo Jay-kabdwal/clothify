@@ -12,6 +12,7 @@ import ProductImageUpload from "../../components/admin/image-upload";
 import { addNewProduct, fetchAllProducts } from "@/store/admin/Products-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import AdminProductTile from "@/components/admin/product-tile";
 
 // Initial form data
 const initialFormData = {
@@ -77,6 +78,11 @@ const Products = () => {
         </Button>
       </div>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {
+            productList && productList.length >0 ?
+            productList.map(productItem => <AdminProductTile product={productItem} /> ): null
+          }
+      </div>
         <Sheet
           open={openCreateProductDialog}
           onOpenChange={setOpenCreateProductDialog}
@@ -108,7 +114,7 @@ const Products = () => {
             </div>
           </SheetContent>
         </Sheet>
-      </div>
+      
     </>
   );
 };

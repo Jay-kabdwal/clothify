@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 const AdminProductTile = ({ product }) => {
     return (
@@ -22,7 +23,11 @@ const AdminProductTile = ({ product }) => {
                         <span className="text-lg font-bold">{product?.salePrice}</span>
                     </div>
                 </CardContent>
-                <CardFooter className></CardFooter>
+                <CardFooter 
+                className="flex justify-between items-center">
+                    <button>Edit</button>
+                    <button>Delete</button>  
+                </CardFooter>
             </div>
         </Card>
     );
